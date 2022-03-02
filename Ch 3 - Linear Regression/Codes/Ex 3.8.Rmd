@@ -1,0 +1,88 @@
+---
+title: "Chapter 3 - Linear Regression"
+author: "Thalles Quinaglia Liduares"
+date: "02/03/2022"
+output: html_document
+---
+
+# Applied Exercise 3.8
+
+Upload packages
+
+```{r, warning=FALSE, message=FALSE}
+
+library(lmreg)
+library(tibble)
+library(dplyr)
+library(readxl)
+```
+Upload database
+
+```{r}
+
+setwd("C:\\Program Files\\R\\Machine Learning")
+
+data<-readxl::read_excel("auto-mpg.xlsx")
+
+str(data)
+
+
+```
+**8. This question involves the use of simple linear regression on the Auto data set.**
+
+**(a) Use the `lm()` function to perform a simple linear regression with**
+**mpg as the response and horsepower as the predictor. Use the**
+**`summary()` function to print the results.**
+
+```{r}
+
+lm1<-lm(data$mpg~data$horsepower)
+
+summary(lm1)
+```
+The estimated equation is given by $$\widehat{mpg}=39.9-0.15mpg$$
+Hence, there's a negative relationship between these two variables. Both the intercept
+and slope coefficient are statistically significant at the p-value <0.001.
+
+For each additional `hp` in the car, the `mpg` diminishes 0.15
+
+If `hp`=98, then $mpg=39.9-0.15(98)=25.2$
+
+The confidence interval is equal to
+
+```{r}
+confint(lm1)
+```
+**(b) Plot the response and the predictor. Use the abline() function**
+**to display the least squares regression line.**
+
+```{r}
+
+
+plot(data$mpg, data$horsepower)
+
+
+
+# The abline function is giving error
+
+#abline(lm1)
+```
+
+
+**(c) Use the `plot()` function to produce diagnostic plots of the least**
+**squares regression fit. Comment on any problems you see with the fit.**
+```{r}
+
+par(mfrow=c(2,2))
+
+plot(lm1)
+
+
+```
+
+Based on `Residual vs Fitted` plot, might exist a linear relationship between the `mpg` and `hp`, cause the points are well distributed along the red line.
+
+The `Normal Q-Q` plot confirms the normal distribution of residuals, cause the points are well adjusted to the straigth line.
+
+The `Residuals vs Leverage` analyses the influence of outliers. Besides the possible influence of observations 117 and 84, as showed in the plot, the distribution is well-behaved, as measured by the Cook Distance.
+
