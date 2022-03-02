@@ -1,0 +1,119 @@
+---
+title: "Chapter 2 - Statistical Learning"
+author: "Thalles Quinaglia Liduares"
+date: "01/03/2022"
+output: html_document
+---
+
+# Applied Exercise 2.9
+
+Upload packages
+
+```{r, warning=FALSE, message=FALSE}
+
+library(dplyr)
+library(tibble)
+
+```
+
+Upload database
+
+```{r, warning=FALSE, message=FALSE}
+setwd("C:\\Program Files\\R\\Machine Learning")
+
+data<-read.csv("auto-mpg.csv")
+
+data1<-tibble::as_tibble(data) # Transforming the dataframe in tibble to facilitate the analysis.
+```
+
+
+
+**This exercise involves the Auto data set studied in the lab. Make sure**
+**that the missing values have been removed from the data.**
+
+**(a) Which of the predictors are quantitative, and which are qualitative?**
+
+```{r}
+glimpse(data1)
+```
+
+The dataframe contains 9 variables.  
+
+7 variables are quantitative and 2 are qualitative.
+
+**(b) What is the range of each quantitative predictor? You can answer this using the range() function**
+
+```{r}
+num_var<- select_if(data1, is.numeric) 
+
+num_var # Note that only numerical variables were selectioned.
+
+for (var in num_var) {
+  
+  print(range(var))
+  
+}
+
+```
+**(c) What is the mean and standard deviation of each quantitative predictor?**
+
+The mean values are equal to 
+
+```{r}
+for (var in num_var) {
+  print(round(mean(var),2))
+
+  
+}
+```
+And the `sd` for quantitative variables are equal to
+
+```{r}
+for (var in num_var) {
+  print(round(sd(var),2))
+}
+```
+**(d)Now remove the 10th through 85th observations. What is the range, mean, and standard deviation of each predictor**
+**in the subset of the data that remains?**
+
+```{r}
+# In progress..
+```
+
+**(e) Using the full data set, investigate the predictors graphically,**
+**using scatterplots or other tools of your choice. Create some plots**
+**highlighting the relationships among the predictors. Comment**
+**on your findings.**
+
+
+
+```{r}
+pairs(num_var)
+
+par(mfrow=c(2,2)) 
+
+plot(data1$mpg,data1$cylinders, xlab="mpg", ylab="cylinders", main="")
+
+hist(data1$cylinders, xlab="cylinders", main="")
+
+barplot(data1$cylinders, xlab="cylinders", main="")
+
+boxplot(data1$cylinders~data1$acceleration, xlab="cylinders",ylab="acceleration", main="")
+
+
+
+
+```
+
+
+**(f) Suppose that we wish to predict gas mileage (mpg) on the basis**
+**of the other variables. Do your plots suggest that any of the**
+**other variables might be useful in predicting mpg? Justify your**
+**answer.**
+
+```{r}
+# In progress..
+```
+
+
+
