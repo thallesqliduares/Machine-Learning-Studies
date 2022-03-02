@@ -1,0 +1,126 @@
+---
+title: "Chapter 2 - Statistical Learning"
+author: "Thalles Quinaglia Liduares"
+date: "01/03/2022"
+output: html_document
+---
+# Applied Exercise 2.8
+
+Upload packages
+
+```{r, message=FALSE, warning=FALSE}
+
+library(dplyr)
+
+```
+
+
+**This exercise relates to the College data set, which can be found in**
+**the file College.csv. It contains a number of variables for 777 different**
+**universities and colleges in the US.Before reading the data into R,**
+**it can be viewed in Excel or a text editor.**
+
+**(a) Use the `read.csv()` function to read the data into R. Call the**
+**loaded data college. Make sure that you have the directory set**
+**to the correct location for the data.**
+
+```{r}
+
+setwd("C:\\Program Files\\R\\Machine Learning")
+
+data<-read.csv("data.csv")
+
+
+```
+
+**(b) Look at the data using the fix() function. You should notice**
+**that the first column is just the name of each university. We don’t**
+**really want R to treat this as data. However, it may be handy to**
+**have these names for later. Try the following commands:**
+
+```{r}
+
+data<-data[,-1]
+
+```
+**(c) i. Use the summary() function to produce a numerical summary**
+**of the variables in the data set.**
+
+```{r}
+summary(data)
+```
+
+**ii. Use the pairs() function to produce a scatterplot matrix of**
+**the first ten columns or variables of the data. Recall that**
+**you can reference the first ten columns of a matrix A using A[,1:10].**
+
+```{r}
+first_ten_col<-data[,1:10]
+pairs(first_ten_col)
+```
+
+**iii. Use the plot() function to produce side-by-side boxplots of**
+**Outstate versus Private.**
+
+```{r}
+
+#Is giving Error
+
+#data$private<-as.factor(data$private)
+
+#plot(data$private, data$outstate, xlab="Private University", ylab="Tuition in Dollars ($)")
+
+```
+**iv. Create a new qualitative variable, called Elite, by binning**
+**the Top10perc variable. We are going to divide universities**
+**into two groups based on whether or not the proportion**
+**of students coming from the top 10 % of their high school**
+**classes exceeds 50 %.**
+
+```{r}
+Elite<-rep("No",nrow(data))
+Elite[data$top10perc >50]<-"Yes"
+Elite<-as.factor(Elite)
+data<-data.frame(data,Elite)
+```
+
+**Use the summary() function to see how many elite universities there are.** 
+**Now use the plot() function to produce side-by-side boxplots of Outstate versus Elite.**
+
+```{r}
+summary(Elite)
+
+plot(data$Elite, data$outstate, xlab="Elite University", ylab="Tuition in dollars ($)")
+```
+
+
+**v. Use the hist() function to produce some histograms with**
+**differing numbers of bins for a few of the quantitative variables.**
+**You may find the command par(mfrow=c(2,2)) useful:**
+**it will divide the print window into four regions so that four**
+**plots can be made simultaneously. Modifying the arguments**
+**to this function will divide the screen in other ways.**
+
+```{r}
+par(mfrow=c(2,2))
+
+hist(data$apps, xlab="Applications Received", main="")
+hist(data$books, xlab="Estimated Cost of Books", main="")
+hist(data$phd, xlab="Percentual of Phd's", main="")
+hist(data$enroll, xlab=" Number of new students enrolled", main="")
+```
+
+**vi. Continue exploring the data, and provide a brief summary**
+**of what you discover.**
+
+Lets see how many books cost above the average
+
+```{r}
+books_above_avg<- data %>%
+        filter(books >=mean(books)) %>%
+        summarise(n=n())
+books_above_avg
+```
+Hence, 354 books costs above the average price.
+
+
