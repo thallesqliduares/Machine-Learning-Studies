@@ -1,0 +1,86 @@
+---
+title: "Chapter 3 - Linear Regression"
+author: "Thalles Quinaglia Liduares"
+date: "04/03/2022"
+output: html_document
+---
+
+# Applied Exercise 3.9
+
+Upload packages 
+
+```{r, warning=FALSE, message=FALSE}
+
+library(dplyr)
+library(lmreg)
+library(readxl)
+library(corrplot)
+
+source("http://www.sthda.com/upload/rquery_cormat.r")
+```
+
+Upload Database
+
+```{r, warning=FALSE, message=FALSE}
+setwd("C:\\Program Files\\R\\Machine Learning")
+
+data<-readxl::read_excel("C:\\Program Files\\R\\Machine Learning\\auto-mpg.xlsx")
+
+```
+
+**9. This question involves the use of multiple linear regression on the**
+**Auto data set.**
+
+**(a) Produce a scatterplot matrix which includes all of the variables**
+**in the data set.**
+
+```{r}
+
+var_num <- select_if(data, is.numeric)   
+
+pairs(var_num)
+          
+```
+**(b) Compute the matrix of correlations between the variables using**
+**the function cor(). You will need to exclude the name variable, cor() which is qualitative**
+
+
+```{r}
+
+rquery.cormat(var_num)
+
+```
+**(c) Use the `lm()` function to perform a multiple linear regression**
+**with `mpg` as the response and all other variables except `name` as**
+**the predictors. Use the `summary()` function to print the results.**
+**Comment on the output.**
+
+```{r}
+
+options(scipen=999)
+
+lm1<-lm(mpg~cylinders+displacement+horsepower+weight+acceleration+factor(origin)+factor(`model year`), data)
+
+summary(lm1)
+```
+
+Among the characteristics of the car, only the variable `weight` has significance to the 1% level. The 
+variable `displacement` shows statistical significance to the 5% level. The Adjusted R-Squared is 0.847. 
+So, 84.7% of the variability in `mpg` is explaneid by the predictors. The cathegorical variable `year` suggests 
+that cars perform more `mpg`, due mostly to the technological innovations.
+
+**(d) Use the plot() function to produce diagnostic plots of the linear**
+**regression fit. Comment on any problems you see with the fit.**
+**Do the residual plots suggest any unusually large outliers? Does**
+**the leverage plot identify any observations with unusually high**
+**leverage?**
+
+```{r}
+
+par(mfrow=c(2,2))
+plot(lm1)
+```
+
+The `Normal -QQ` plot shows that residuals follow a normal distribution, because the points 
+fits well the dashed straight line. The `Residuals vs Fitted` plot shows the horizontal red straight line
+that's a good indication that model follows a linear pattern.
