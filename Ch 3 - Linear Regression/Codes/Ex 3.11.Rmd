@@ -1,0 +1,81 @@
+---
+title: "Chapter 3 - Linear Regression"
+author: "Thalles Quinaglia Liduares"
+date: "04/03/2022"
+output: html_document
+---
+
+# Applied Exercise 3.11
+
+Upload packages
+
+```{r, warning=FALSE, message=FALSE}
+library(lmreg)
+```
+Generate the sample model
+
+```{r}
+set.seed(1)
+x=rnorm(100)
+y=2*x+rnorm (100)
+```
+
+
+
+**(a) Perform a simple linear regression of `y` onto `x`, without an intercept. Report the coefficient estimate**
+**$\hat{\beta}$, the standard error of this coefficient estimate, and the t-statistic and p-value associated with the null**
+**hypothesis $H_0: \beta=0$. Comment on these results**
+
+```{r}
+
+lm1<-lm(y~x-1)
+summary(lm1)
+```
+
+The estimated model is expressed as follows
+
+$$\hat{y}=1.993x$$
+
+The standard error, t-statistic and p-value are 0.106, 18.73 and 2e-16, respectively.
+
+```{r}
+
+
+```
+
+
+
+**In this problem we will investigate the t-statistic for the null hypothesis $H_0: \beta=0$**
+**in simple linear regression without an intercept. To begin, we generate a predictor**
+**`x` and a response `y` as follows.**
+
+
+```{r}
+set.seed(1)
+x=rnorm(100)
+y=2*x+rnorm (100)
+ 
+```
+
+**(b) Now perform a simple linear regression of x onto y without an**
+**intercept, and report the coefficient estimate, its standard error,**
+**and the corresponding t-statistic and p-values associated with**
+**the null hypothesis $H_0: \beta=0$.**
+
+```{r}
+lm2<-lm(x~y-1)
+
+summary(lm2)
+```
+
+The estimated model is expressed as follows
+
+$$\hat{x}=0.39y$$
+
+The standard error, t-statistic and p-value are 0.02, 18.73 and 2e-16, respectively.
+
+**(c) What is the relationship between the results obtained in (a) and (b)?**
+
+The principal difference between these models, is the magnitude of slope in curve.
+In the item (a), the slope is 2, as in item (b) is 0.4, aproximately.
+
